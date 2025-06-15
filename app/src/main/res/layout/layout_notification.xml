@@ -1,0 +1,63 @@
+<!-- res/layout/notification_custom.xml -->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:padding="12dp"
+    android:background="@android:color/white">
+
+    <!-- Icon trái -->
+    <ImageView
+        android:id="@+id/ic_launcher"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:scaleType="centerCrop"
+        android:src="@drawable/beacon_icon"
+        android:layout_gravity="center_vertical" />
+
+    <!-- Phần thông tin -->
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:orientation="vertical"
+        android:paddingStart="10dp">
+
+        <!-- Reminder time -->
+        <TextView
+            android:id="@+id/noti_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Reminder - at 23:50, 15/06/2025"
+            android:textColor="@color/black"
+            android:textSize="14sp"
+            android:textStyle="bold"
+            android:maxLines="1"
+            android:ellipsize="end" />
+
+        <!-- Note title -->
+        <TextView
+            android:id="@+id/note_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:text="Tiêu đề note"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:textColor="@color/black"
+            android:maxLines="2"
+            android:ellipsize="end" />
+
+        <!-- Nội dung -->
+        <TextView
+            android:id="@+id/noti_content"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="2dp"
+            android:text="Thông báo test"
+            android:textColor="@color/black"
+            android:textSize="14sp"
+            android:maxLines="3"
+            android:ellipsize="end" />
+    </LinearLayout>
+</LinearLayout>

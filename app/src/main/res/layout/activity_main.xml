@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".Activity.MainActivity"
+    android:background="?attr/colorBackground">
+
+    <androidx.viewpager2.widget.ViewPager2
+        android:id="@+id/viewpager2"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/graphView"
+        app:layout_anchor="@id/navigationBar"
+        app:layout_anchorGravity="top|center"
+        android:contentDescription="Graph View"
+        android:backgroundTint="?attr/colorCardView"
+        app:tint="@color/blue"
+        android:src="@drawable/ic_graph"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:id="@+id/navigationBar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="?attr/colorBackground"
+        app:itemIconSize="26dp"
+        app:itemIconTint="@color/custom_bottom_navigation"
+        app:itemTextAppearanceActiveBoldEnabled="false"
+        app:itemTextColor="@color/custom_bottom_navigation"
+        android:layout_gravity="bottom"
+        app:menu="@menu/menu_bottom_navigation" />
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

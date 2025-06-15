@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="?attr/colorBackground"
+    android:id="@+id/homeLayout"
+    tools:context=".Fragment.HomeFragment">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <LinearLayout
+            android:id="@+id/textView"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="54dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:orientation="horizontal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/folder"
+                android:textColor="?attr/colorTitle"
+                android:textSize="28sp"
+                android:textStyle="bold" />
+            <ImageView
+                android:id="@+id/imgMarkdown"
+                android:layout_width="50dp"
+                android:layout_height="match_parent"
+                android:layout_marginEnd="20dp"
+                android:src="@drawable/image_markdown"
+                android:visibility="gone"
+                android:padding="2dp"
+                app:tint="@color/blue" />
+        </LinearLayout>
+
+        <ImageView
+            android:id="@+id/add_folder"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="20dp"
+            android:src="@drawable/ic_addfolder"
+            android:padding="2dp"
+            app:layout_constraintBottom_toBottomOf="@+id/textView"
+            app:layout_constraintEnd_toStartOf="@id/txt_modify"
+            app:layout_constraintTop_toTopOf="@+id/textView"
+            app:tint="@color/blue" />
+
+        <TextView
+            android:id="@+id/txt_modify"
+            android:text="@string/modify"
+            android:textSize="20sp"
+            android:textColor="@color/blue"
+            android:visibility="visible"
+            android:layout_marginEnd="20dp"
+            app:layout_constraintBottom_toBottomOf="@+id/add_folder"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/add_folder"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+        <TextView
+            android:id="@+id/txt_done"
+            android:text="@string/str_done"
+            android:textSize="20sp"
+            android:textColor="@color/blue"
+            android:visibility="gone"
+            android:layout_marginEnd="20dp"
+            app:layout_constraintBottom_toBottomOf="@+id/add_folder"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/add_folder"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+        <LinearLayout
+            android:id="@+id/searchLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:background="@drawable/bg_search"
+            android:layout_marginTop="26dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="20dp"
+            android:padding="4dp"
+            android:gravity="center_vertical"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/add_folder">
+
+            <ImageView
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_marginStart="2dp"
+                android:src="@drawable/ic_search"
+                app:tint="?attr/colorComponentSearch" />
+
+            <TextView
+                android:text="@string/search"
+                android:textColor="?attr/colorComponentSearch"
+                android:textSize="16sp"
+                android:layout_marginStart="8dp"
+                android:gravity="center_vertical"
+                android:layout_weight="1"
+                android:layout_width="0dp"
+                android:layout_height="26dp"/>
+
+            <ImageView
+                android:id="@+id/clearBtn"
+                android:src="@drawable/ic_clear"
+                android:layout_marginEnd="2dp"
+                android:padding="2dp"
+                android:background="@drawable/bg_round_btn"
+                android:visibility="gone"
+                android:layout_width="18dp"
+                android:layout_height="18dp"
+                app:tint="@color/lightGray" />
+        </LinearLayout>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerViewFolder"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_marginTop="40dp"
+            android:clipToPadding="false"
+            android:paddingStart="20dp"
+            android:paddingEnd="20dp"
+            app:layout_constraintBottom_toTopOf="@+id/navigationBar"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/searchLayout" />
+
+        <com.google.android.material.bottomnavigation.BottomNavigationView
+            android:id="@+id/navigationBar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="?attr/colorBackground"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"/>
+
+        <ImageView
+            android:id="@+id/createNote"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_newnote"
+            android:layout_marginEnd="30dp"
+            android:layout_marginBottom="80dp"
+            android:background="@drawable/bg_round_btn"
+            android:padding="15dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:tint="@color/lightGray" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

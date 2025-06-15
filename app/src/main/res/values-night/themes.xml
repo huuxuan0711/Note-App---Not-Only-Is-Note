@@ -1,0 +1,31 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <!-- Base application theme. -->
+    <style name="Base.Theme.Project0NoteApp" parent="Theme.Material3.DayNight.NoActionBar">
+        <!-- Customize your dark theme here. -->
+        <!-- <item name="colorPrimary">@color/my_dark_primary</item> -->
+        <item name="colorBackground">@color/colorPrimary</item>
+        <item name="colorBackground2">@color/almost_black</item>
+        <item name="colorRoundBtn">@color/darkBlue</item>
+        <item name="colorTitle">@color/white</item>
+        <item name="colorTitle2">@color/lightGray</item>
+        <item name="colorBgSearch">@color/darkGray</item>
+        <item name="colorBgSearch2">@color/darkBlue</item>
+        <item name="colorComponentSearch">@color/lightGray</item>
+        <item name="colorDeleteSearch">@color/darkBlue</item>
+        <item name="colorText">@color/lightGray</item>
+        <item name="colorText2">@color/white</item>
+        <item name="colorText3">@color/pale_darkBlue</item>
+        <item name="colorText4">@color/blue</item>
+        <item name="colorTextHint">@color/lightGray</item>
+        <item name="colorTextHint2">@color/pale_lightGray</item>
+        <item name="colorTextDate">#49454F</item>
+        <item name="colorCardView">@color/darkGray</item>
+        <item name="colorCardView2">@color/pale_darkBlue</item>
+        <item name="colorCardView3">@color/almost_black</item>
+        <item name="colorCardView4">@color/darkBlue</item>
+        <item name="colorCardView5">@color/bold_colorPrimary</item>
+    </style>
+
+    <style name="Theme.Project0NoteApp_Dark" parent="Base.Theme.Project0NoteApp" />
+
+</resources>

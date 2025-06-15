@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:id="@+id/layout_repetition"
+    android:paddingStart="8dp"
+    android:paddingEnd="8dp"
+    android:background="@drawable/bg_note"
+    android:layout_width="200dp"
+    android:layout_height="wrap_content">
+
+    <TextView
+        android:id="@+id/txt_option_none"
+        android:text="@string/repeat_none"
+        android:textColor="@color/blue"
+        android:textSize="18sp"
+        android:padding="8dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
+    <TextView
+        android:id="@+id/txt_option_daily"
+        android:text="@string/repeat_daily"
+        android:textColor="?attr/colorText"
+        android:textSize="18sp"
+        android:padding="8dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
+    <TextView
+        android:id="@+id/txt_option_weekly"
+        android:text="@string/repeat_weekly"
+        android:textColor="?attr/colorText"
+        android:textSize="18sp"
+        android:padding="8dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
+    <TextView
+        android:id="@+id/txt_option_biweekly"
+        android:text="@string/repeat_biweekly"
+        android:textColor="?attr/colorText"
+        android:textSize="18sp"
+        android:padding="8dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
+    <TextView
+        android:id="@+id/txt_option_monthly"
+        android:text="@string/repeat_monthly"
+        android:textColor="?attr/colorText"
+        android:textSize="18sp"
+        android:padding="8dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
+    <TextView
+        android:id="@+id/txt_option_yearly"
+        android:text="@string/repeat_yearly"
+        android:textColor="?attr/colorText"
+        android:textSize="18sp"
+        android:padding="8dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+</LinearLayout>

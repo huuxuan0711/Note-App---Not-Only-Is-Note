@@ -1,0 +1,13 @@
+<paths>
+    <external-path
+        name="external_files"
+        path="." />
+
+    <cache-path
+        name="cache_files"
+        path="." />
+
+    <external-path
+        name="app_files"
+        path="Android/data/com.xmobile.project0/files/" />
+</paths>

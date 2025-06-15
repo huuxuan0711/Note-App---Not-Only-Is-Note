@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:id="@+id/menu_web_link"
+        android:title="@string/add_url"
+        android:icon="@drawable/ic_web_link"/>
+
+    <item android:id="@+id/menu_attach_file"
+        android:title="@string/add_file"
+        android:icon="@drawable/ic_attach"/>
+
+    <item android:id="@+id/menu_note_link"
+        android:title="@string/link_note"
+        android:icon="@drawable/ic_link"/>
+
+</menu>

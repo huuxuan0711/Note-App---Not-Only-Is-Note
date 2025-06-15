@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:id="@+id/menu_search_in_note"
+        android:title="@string/search_in_note"
+        android:icon="@drawable/ic_search"/>
+
+    <item android:id="@+id/menu_move_in_note"
+        android:title="@string/move_note"
+        android:icon="@drawable/ic_move"/>
+
+    <item android:id="@+id/menu_delete_in_note"
+        android:title="@string/str_delete"
+        android:iconTint="@color/red"
+        android:icon="@drawable/ic_delete"/>
+
+</menu>

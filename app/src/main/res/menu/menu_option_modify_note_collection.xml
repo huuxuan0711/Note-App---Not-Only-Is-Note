@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:id="@+id/menu_settype"
+        android:title="@string/list_mode"
+        android:icon="@drawable/ic_list"/>
+
+    <item android:id="@+id/menu_sort_date"
+        android:title="@string/sort_by_modified_date"
+        android:icon="@drawable/ic_calendar"/>
+
+    <item android:id="@+id/menu_sort_title"
+        android:title="@string/sort_by_title"
+        android:icon="@drawable/ic_abc"/>
+
+    <item android:id="@+id/menu_choose"
+        android:title="@string/select_notes"
+        android:icon="@drawable/ic_choose"/>
+
+</menu>
