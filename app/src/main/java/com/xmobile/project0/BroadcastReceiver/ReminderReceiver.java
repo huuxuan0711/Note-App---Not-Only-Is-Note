@@ -3,11 +3,13 @@ package com.xmobile.project0.BroadcastReceiver;
 import android.annotation.SuppressLint;
 import android.app.AlarmManager;
 import android.app.Notification;
+import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Build;
 import android.util.Log;
 import android.widget.RemoteViews;
 
@@ -35,51 +37,67 @@ public class ReminderReceiver extends BroadcastReceiver {
     public void onReceive(Context context, Intent intent) {
         PendingResult result = goAsync(); // giữ broadcast sống lâu hơn
         noti = (Noti) intent.getSerializableExtra("noti");
+        try{
+            NoteDatabase db = NoteDatabase.getDatabase(context);
+            compositeDisposable.add(
+                    db.notiDao().updateNotified(noti.getId(), true)
+                            .doOnComplete(() -> Log.d("NotificationDebug", "isNotified updated for ID: " + noti.getId()))
+                            .andThen(db.noteDao().getNoteWithId(noti.getIdNote()))
+                            .subscribeOn(Schedulers.io())
+                            .observeOn(AndroidSchedulers.mainThread())
+                            .subscribe(note -> {
+                                // Sau khi update xong và lấy được Note → gửi thông báo
+                                Intent serviceIntent = new Intent(context, NoteActivity.class);
+                                serviceIntent.putExtra("note", note);
+                                serviceIntent.putExtra("isUpdate", true);
+                                serviceIntent.putExtra("noti", noti);
 
-        NoteDatabase db = NoteDatabase.getDatabase(context);
-        compositeDisposable.add(
-                db.notiDao().updateNotified(noti.getId(), true)
-                        .doOnComplete(() -> Log.d("NotificationDebug", "isNotified updated for ID: " + noti.getId()))
-                        .andThen(db.noteDao().getNoteWithId(noti.getIdNote()))
-                        .subscribeOn(Schedulers.io())
-                        .observeOn(AndroidSchedulers.mainThread())
-                        .subscribe(note -> {
-                            // Sau khi update xong và lấy được Note → gửi thông báo
-                            Intent serviceIntent = new Intent(context, NoteActivity.class);
-                            serviceIntent.putExtra("note", note);
-                            serviceIntent.putExtra("isUpdate", true);
-                            serviceIntent.putExtra("noti", noti);
+                                PendingIntent pendingIntent = PendingIntent.getActivity(
+                                        context,
+                                        0,
+                                        serviceIntent,
+                                        PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE
+                                );
 
-                            PendingIntent pendingIntent = PendingIntent.getActivity(
-                                    context,
-                                    0,
-                                    serviceIntent,
-                                    PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE
-                            );
+                                String timeText = new SimpleDateFormat("HH:mm, dd/MM/yyyy", Locale.getDefault()).format(new Date());
 
-                            String timeText = new SimpleDateFormat("HH:mm, dd/MM/yyyy", Locale.getDefault()).format(new Date());
+                                Notification notification = new NotificationCompat.Builder(context, "reminder_channel")
+                                        .setSmallIcon(R.drawable.beacon_icon)
+                                        .setContentTitle("Reminder - " + timeText) // tiêu đề
+                                        .setContentText(noti.getTitle() + "\n" + noti.getContent())         // nội dung nhắc nhở
+                                        .setStyle(new NotificationCompat.BigTextStyle()
+                                                .bigText(noti.getTitle() + "\n" + noti.getContent()))       // mở rộng nội dung khi dài
+                                        .setPriority(NotificationCompat.PRIORITY_HIGH)
+                                        .setAutoCancel(true)
+                                        .setContentIntent(pendingIntent)
+                                        .build();
 
-                            Notification notification = new NotificationCompat.Builder(context, "reminder_channel")
-                                    .setSmallIcon(R.drawable.beacon_icon)
-                                    .setContentTitle("Reminder - " + timeText) // tiêu đề
-                                    .setContentText(noti.getTitle() + "\n" + noti.getContent())         // nội dung nhắc nhở
-                                    .setStyle(new NotificationCompat.BigTextStyle()
-                                            .bigText(noti.getTitle() + "\n" + noti.getContent()))       // mở rộng nội dung khi dài
-                                    .setPriority(NotificationCompat.PRIORITY_HIGH)
-                                    .setAutoCancel(true)
-                                    .setContentIntent(pendingIntent)
-                                    .build();
+                                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                                    NotificationChannel channel = new NotificationChannel(
+                                            "reminder_channel",
+                                            "Nhắc Nhở",
+                                            NotificationManager.IMPORTANCE_HIGH
+                                    );
+                                    channel.setDescription("Thông báo nhắc nhở");
+                                    NotificationManager notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
+                                    if (notificationManager != null) {
+                                        notificationManager.createNotificationChannel(channel); // sẽ không tạo lại nếu đã tồn tại
+                                    }
+                                }
 
+                                NotificationManager notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
+                                notificationManager.notify(noti.getId(), notification);
 
-                            NotificationManager notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
-                            notificationManager.notify(0, notification);
-
-                            result.finish();
-                        }, throwable -> {
-                            Log.e("NotificationError", "Error updating and sending notification", throwable);
-                            result.finish();
-                        })
-        );
+                                result.finish();
+                            }, throwable -> {
+                                Log.e("NotificationError", "Error updating and sending notification", throwable);
+                                result.finish();
+                            })
+            );
+        }catch (Exception e){
+            Log.e("ReminderReceiver", "Unhandled exception", e);
+            result.finish();
+        }
 
         // Nếu là nhắc lại mỗi tháng/năm, cập nhật lại alarm
         if (noti.getOption().equals("Mỗi tháng") || noti.getOption().equals("Mỗi năm")) {
