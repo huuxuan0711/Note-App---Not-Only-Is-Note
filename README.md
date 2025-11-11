@@ -5,7 +5,7 @@ Giới thiệu
 
 🚀 Tính năng chính
 
-Quản lý note: tạo, sửa, xóa ghi chú, phân loại theo folder.
+Quản lý note: tạo, sửa, xóa, liên kết ghi chú, phân loại theo folder.
 
 Graph View: hiển thị mối liên kết giữa các note bằng đồ thị, với highlight node trung tâm và blur node theo độ sâu.
 
