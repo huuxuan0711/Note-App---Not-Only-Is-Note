@@ -19,6 +19,8 @@ Notification: nhắc nhở note quan trọng.
 
 Smooth UI: zoom/drag, click node để mở note.
 
+Điều chỉnh font, theme và language
+
 🛠️ Công nghệ nổi bật
 
 Java + XML (Android)
