@@ -13,6 +13,8 @@ Depth Control: điều chỉnh mức độ hiển thị node theo hop hoặc th�
 
 Search & Filter: tìm kiếm note và lọc theo folder, tag hoặc liên kết.
 
+Calendar: quản lí các ghi chú theo lịch
+
 Notification: nhắc nhở note quan trọng.
 
 Smooth UI: zoom/drag, click node để mở note.
