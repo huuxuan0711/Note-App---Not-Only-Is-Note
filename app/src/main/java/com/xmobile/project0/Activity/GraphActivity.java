@@ -151,14 +151,14 @@ public class GraphActivity extends BaseActivity {
                             List<Note> allNotes = pair.first;
                             List<NoteLink> allLinks = pair.second;
 
-                            // Tính degree
+                            // Tính degree (số liên kết của một note)
                             Map<Integer, Integer> degreeMap = new HashMap<>();
                             for (NoteLink link : allLinks) {
                                 degreeMap.put(link.getIdFrom(), degreeMap.getOrDefault(link.getIdFrom(), 0) + 1);
                                 degreeMap.put(link.getIdTo(), degreeMap.getOrDefault(link.getIdTo(), 0) + 1);
                             }
 
-                            // Tìm centerNoteId
+                            // Tìm centerNoteId (note có nhiều liên kết nhất)
                             centerNoteId = -1;
                             int maxDegree = -1;
                             for (Map.Entry<Integer, Integer> entry : degreeMap.entrySet()) {
@@ -181,10 +181,8 @@ public class GraphActivity extends BaseActivity {
                             Map<Integer, Integer> degreeMap = (Map<Integer, Integer>) map.get("degreeMap");
 
                             if (viewFullGraph || centerNoteId == -1) {
-                                // Không cần truy vấn centerNote
                                 return Single.fromCallable(() -> buildGraphDataWithoutCenter(allNotes, allLinks, degreeMap));
                             } else {
-                                // Có centerNote → cần truy vấn thêm
                                 return noteDao.getNoteWithId(centerNoteId)
                                         .defaultIfEmpty(null)
                                         .map(centerNote -> buildGraphDataWithCenter(centerNote, allNotes, allLinks, degreeMap));
@@ -193,14 +191,14 @@ public class GraphActivity extends BaseActivity {
                         .observeOn(AndroidSchedulers.mainThread())
                         .subscribe(pair -> {
                             String json = pair.first;
-                            List<Note> filteredNotes = pair.second;
+                            List<Note> allNotes = pair.second;
 
                             binding.webView.evaluateJavascript("loadGraph(" + json + ")", null);
                             LinearLayout legendLayout = findViewById(R.id.folderLegend);
                             legendLayout.removeAllViews();
 
                             Set<String> folderSet = new HashSet<>();
-                            for (Note n : filteredNotes) {
+                            for (Note n : allNotes) {
                                 folderSet.add(n.getFolderName());
                             }
 
@@ -229,7 +227,7 @@ public class GraphActivity extends BaseActivity {
             Map<Integer, Integer> degreeMap
     ) {
         Map<Integer, Integer> depthMap = new HashMap<>();
-        for (Note n : allNotes) depthMap.put(n.getId(), 0);
+        for (Note n : allNotes) depthMap.put(n.getId(), 0); //không có centerNote, mặc định depth = 0
 
         return buildFinalGraph(allNotes, allLinks, degreeMap, depthMap);
     }
@@ -243,7 +241,7 @@ public class GraphActivity extends BaseActivity {
         Map<Integer, Integer> depthMap = new HashMap<>();
         Set<Integer> visited = new HashSet<>();
 
-        if (isDepthByHop) {
+        if (isDepthByHop) { //tính toán độ sâu của từng note dựa trên độ sâu liên kết so với centerNote
             depthMap.put(centerNoteId, 0);
             visited.add(centerNoteId);
             Queue<Integer> queue = new LinkedList<>();
@@ -265,7 +263,7 @@ public class GraphActivity extends BaseActivity {
                     }
                 }
             }
-        } else {
+        } else { //tính toán độ sâu của từng note dựa trên thời gian giữa centerNote và note
             SimpleDateFormat sdf = new SimpleDateFormat("HH:mm, dd/MM/yyyy", Locale.getDefault());
             try {
                 Date centerDate = sdf.parse(centerNote.getDateTime());
@@ -293,33 +291,24 @@ public class GraphActivity extends BaseActivity {
             Map<Integer, Integer> degreeMap,
             Map<Integer, Integer> depthMap
     ) {
-        List<Note> filteredNotes = new ArrayList<>();
-        for (Note n : allNotes) {
-            if (depthMap.containsKey(n.getId())) {
-                filteredNotes.add(n);
-            }
-        }
-
         List<Map<String, Object>> notes = new ArrayList<>();
         List<Map<String, Object>> links = new ArrayList<>();
 
-        for (Note note : filteredNotes) {
+        for (Note note : allNotes) { // gửi tất cả note
             Map<String, Object> obj = new HashMap<>();
             obj.put("id", note.getId());
             obj.put("title", note.getTitle());
             obj.put("folder", note.getFolderName());
-            obj.put("depth", depthMap.get(note.getId()));
+            obj.put("depth", depthMap.getOrDefault(note.getId(), 10)); // depth mặc định 10 nếu ngoài depthMap
             obj.put("degree", degreeMap.getOrDefault(note.getId(), 1));
             notes.add(obj);
         }
 
         for (NoteLink link : allLinks) {
-            if (depthMap.containsKey(link.getIdFrom()) && depthMap.containsKey(link.getIdTo())) {
-                Map<String, Object> obj = new HashMap<>();
-                obj.put("from", link.getIdFrom());
-                obj.put("to", link.getIdTo());
-                links.add(obj);
-            }
+            links.add(Map.of(
+                    "from", link.getIdFrom(),
+                    "to", link.getIdTo()
+            ));
         }
 
         Map<String, Object> fullData = new HashMap<>();
@@ -328,9 +317,8 @@ public class GraphActivity extends BaseActivity {
         fullData.put("links", links);
         fullData.put("viewFullGraph", viewFullGraph);
 
-        return new Pair<>(new Gson().toJson(fullData), filteredNotes);
+        return new Pair<>(new Gson().toJson(fullData), allNotes);
     }
-
 
     private class AndroidBridge {
         @JavascriptInterface

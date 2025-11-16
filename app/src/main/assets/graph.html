@@ -45,18 +45,20 @@
             let baseSize = viewFullGraph ? 10 : 20;
             let multiplier = viewFullGraph ? 2 : 5;
             const size = isCenter ? 20 : baseSize + (degreeMap[n.id] || 1) * multiplier;
+            const depth = n.depth;
+            const opacity = depth > 3 ? 0.2 : 1 - (depth * 0.2); // opacity ban đầu
             return {
                 data: {
                     id: n.id.toString(),
                     label: n.title,
-                    depth: n.depth,
+                    depth: depth,
                     folder: n.folder
                 },
                 style: {
                     width: size,
                     height: size,
                     backgroundColor: hashColor(n.folder),
-                    opacity: 1,
+                    opacity: opacity,
                     borderWidth: isCenter ? 2 : 0,
                     borderColor: isCenter ? '#FFD700' : '',
                     color: '#007AFF',
@@ -98,38 +100,23 @@
         // Fit toàn bộ graph khi mới mở
         cy.ready(() => {
             cy.fit();
-            const zoom = cy.zoom();
-            if (zoom > 1.5) {
-                depthApplied = true;
-                applyDepthOpacity();
-            }
         });
 
-        // Khi zoom vượt ngưỡng -> mới áp dụng depth
-        let depthApplied = false;
+        // Khi zoom -> áp dụng depth dynamically
         cy.on('zoom', function () {
             const zoom = cy.zoom();
-            if (zoom > 1.5 && !depthApplied) {
-                depthApplied = true;
-                applyDepthOpacity();
-            } else if (zoom <= 1.5 && depthApplied) {
-                depthApplied = false;
-                resetOpacity();
-            }
-        });
-    }
-
-    function applyDepthOpacity() {
-        cy.nodes().forEach(n => {
-            const depth = n.data('depth');
-            const opacity = 1 - (depth * 0.2);
-            n.style('opacity', Math.max(opacity, 0.2));
-        });
-    }
-
-    function resetOpacity() {
-        cy.nodes().forEach(n => {
-            n.style('opacity', 1);
+            cy.nodes().forEach(n => {
+                const depth = n.data('depth');
+                let opacity;
+                if (zoom > 1.5) {
+                    // Zoom lớn -> hiển thị cả node ngoài depthMap
+                    opacity = depth > 3 ? 0.5 : 1 - (depth * 0.2);
+                } else {
+                    // Zoom nhỏ -> ẩn node ngoài depthMap
+                    opacity = depth > 3 ? 0.2 : 1 - (depth * 0.2);
+                }
+                n.style('opacity', opacity);
+            });
         });
     }
 </script>
