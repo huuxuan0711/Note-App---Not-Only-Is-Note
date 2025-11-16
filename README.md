@@ -1,36 +1,45 @@
 Note App — Not Only Is Note
 
 Giới thiệu
-Ứng dụng ghi chú thông minh giúp người dùng quản lý note, liên kết giữa các ghi chú, lập kế hoạch cá nhân và nhóm. Hỗ trợ visual graph để dễ dàng theo dõi mối quan hệ giữa các ghi chú.
+
+Note App là ứng dụng ghi chú thông minh, giúp người dùng quản lý các note, thiết lập liên kết giữa các ghi chú và lập kế hoạch cá nhân hoặc nhóm. Điểm đặc biệt là Graph View, cho phép trực quan hóa mối quan hệ giữa các note, giúp người dùng dễ dàng nắm bắt cấu trúc thông tin.
 
 🚀 Tính năng chính
 
-Quản lý note: tạo, sửa, xóa, liên kết ghi chú, phân loại theo folder.
+Quản lý note: tạo, sửa, xóa, phân loại theo folder, liên kết note nội bộ.
 
-Graph View: hiển thị mối liên kết giữa các note bằng đồ thị, với highlight node trung tâm và blur node theo độ sâu.
+Graph View: hiển thị mối quan hệ giữa các note dưới dạng đồ thị; node trung tâm nổi bật, các node xa bị làm mờ theo độ sâu.
 
-Depth Control: điều chỉnh mức độ hiển thị node theo hop hoặc thời gian.
+Depth Control: điều chỉnh hiển thị node dựa trên số hop liên kết hoặc thời gian giữa các note.
 
-Search & Filter: tìm kiếm note và lọc theo folder, tag hoặc liên kết.
+Search & Filter: tìm kiếm note, lọc theo folder, tag hoặc liên kết.
 
-Calendar: quản lí các ghi chú theo lịch
+Calendar View: quản lý note theo lịch trực quan.
 
-Notification: nhắc nhở note quan trọng.
+Notification: nhắc nhở các note quan trọng.
 
-Smooth UI: zoom/drag, click node để mở note.
+Smooth UI: zoom, drag, click node để mở note trực tiếp.
 
-Điều chỉnh font, theme và language
+Tuỳ chỉnh: font, theme và ngôn ngữ theo nhu cầu người dùng.
 
-🛠️ Công nghệ nổi bật
+🛠️ Công nghệ sử dụng
 
-Java + XML (Android)
+Android: Java + XML
 
-Room (cơ sở dữ liệu local)
+Database: Room (cơ sở dữ liệu local)
 
-RxJava (xử lý bất đồng bộ)
+Reactive Programming: RxJava (xử lý bất đồng bộ)
 
-Rich-Text Editor (ghi chú thông minh)
+Ghi chú thông minh: Rich-Text Editor (WebView custom)
 
-WebView + Cytoscape.js (Graph View)
+Graph Visualization: WebView + Cytoscape.js
 
-Material Design & Jetpack Components
+UI/UX: Material Design, Jetpack Components
+
+📌 Điểm nổi bật
+
+Graph View & Depth Control: trực quan hóa liên kết giữa note, node trung tâm nổi bật, node xa mờ dần.
+
+Smart Note Editor: kết hợp rich-text, liên kết nội bộ, chia sẻ, và gắn file.
+
+Tích hợp hoàn chỉnh: quản lý note, lịch, thông báo, search/filter trong cùng một app.
